@@ -5,19 +5,24 @@
  */
 package Interweb;
 
+import java.io.File;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 
 /**
  *
  * @author Samuel
  */
-public class Email {
+public class EmailComAnexo {
 
     public static void main(String[] args) {
 
@@ -44,8 +49,6 @@ public class Email {
             
             Session session = Session.getDefaultInstance(props,authent);
             
-            session.setDebug(true);
-            
        try {
                   
             Message message = new MimeMessage(session);
@@ -53,16 +56,34 @@ public class Email {
             message.setFrom(new InternetAddress("samueldebarro@gmail.com"));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("samuelricardooficial@gmail.com"));
             message.setSubject("Para min");
-            message.setText("como vc vai?");
+           
+            MimeBodyPart mBP = new MimeBodyPart();
+            
+            mBP.setText("Conteudo  do texto vai aki");
+            
+            Multipart multi = new javax.mail.internet.MimeMultipart();
+            
+            multi.addBodyPart(mBP);
+            
+            mBP = new MimeBodyPart();
+            
+            DataSource source = new FileDataSource(new File(System.getProperty("user.home") + "/desktop/imagemMusica.png"));
+                        
+            mBP.setDataHandler(new DataHandler(source));
+            mBP.setFileName("Mangericao.png");
+            
+            multi.addBodyPart(mBP);
+            
+            message.setContent(multi);
             
             Transport.send(message);
             
             
             
         } catch (AddressException ex) {
-            Logger.getLogger(Email.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EmailComAnexo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MessagingException ex) {
-            Logger.getLogger(Email.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EmailComAnexo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
