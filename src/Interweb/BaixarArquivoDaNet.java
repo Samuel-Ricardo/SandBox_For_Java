@@ -75,8 +75,6 @@ public class BaixarArquivoDaNet {
                 fos.write(bytes);
                 tamanho = is.available();
                 System.out.println((local.length()/1024)+"/"+(tamanho/1024)+ " Bytes");
-                
-                
             
             }
             
