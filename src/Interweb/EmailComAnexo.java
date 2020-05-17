@@ -30,6 +30,7 @@ public class EmailComAnexo {
             Properties props = new Properties();
             
             props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.auth", "true");
             props.put("mail.smtp.socketFactory.port", "465");
             props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
             props.put("mail.smtp.auth", "true");
@@ -48,6 +49,8 @@ public class EmailComAnexo {
             
             
             Session session = Session.getDefaultInstance(props,authent);
+            
+             session.setDebug(true);
             
        try {
                   
@@ -77,8 +80,6 @@ public class EmailComAnexo {
             message.setContent(multi);
             
             Transport.send(message);
-            
-            
             
         } catch (AddressException ex) {
             Logger.getLogger(EmailComAnexo.class.getName()).log(Level.SEVERE, null, ex);
